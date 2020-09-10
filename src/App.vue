@@ -1,32 +1,45 @@
 <template>
   <div id="app">
+    <keep-alive>
+          <router-view/>
+    </keep-alive>
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <MainTabBar v-show="showMainTabBar"/>
     </div>
-    <router-view/>
   </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import MainTabBar from './components/MainTabBar'
+// import axios from 'axios'
 
-#nav {
-  padding: 30px;
+export default {
+  name: 'App',
+  components: {
+    MainTabBar
+  },
+  data () {
+    return {
+      showMainTabBar: true
+    }
+  },
+  watch: {
+    '$route' (to, from) {
+      // console.log(to)
+      // console.log(from)
+      if (to.path === '/home' || to.path === '/cart' || to.path === '/category' || to.path === '/about') {
+        this.showMainTabBar = true
+      } else {
+        this.showMainTabBar = false
+      }
+    }
+  }
+//   created () {
+//     axios.get('http://open.kiwifruits.cn/public/index.php/api/v1/qtk' + '/baokuan?app_key=OjRY3esp&v=1.0').then(res => console.log(res))
+//   }
 }
+</script>
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+<style scoped>
+  @import url("./assets/css/base.css");
 </style>
